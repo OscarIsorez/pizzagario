@@ -2,6 +2,7 @@ import pygame
 import time
 
 class Player():
+    # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza
     def __init__(self, screen):
         self.screen = screen
         self.image = pygame.image.load("images/pizza.png").convert_alpha()
@@ -9,6 +10,8 @@ class Player():
         self.y = 0
         self.size = 100
 
+    # il faut passer en paramètre où se situe l'écran sur la map, anisi qu'une liste de tous les robots et points de nourritures
+    # le joueur va vérifier s'il mange un bot, mais pas si il se fais manger par un bot
     def update(self, x_screen, y_screen, bots):
         x, y = pygame.mouse.get_pos()
         print(x, y)
@@ -36,6 +39,7 @@ class Player():
         image = pygame.transform.scale(self.image, (self.size, self.size))
         self.screen.blit(image, (self.x - self.size/2, self.y - self.size/2))
 
+# test
 if __name__ == "__main__":
     pygame.init()
     pygame.font.init()
@@ -53,5 +57,5 @@ if __name__ == "__main__":
                 pygame.quit()
                 sys.exit(0)
         pygame.draw.rect(screen, (0,0,0), pygame.Rect(0, 0, 1000, 1000))
-        player.update(0, 0)
+        player.update(0, 0, [])
         pygame.display.flip()
