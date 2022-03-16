@@ -2,11 +2,8 @@ import pygame
 from Player import Player
 import time
 import sys
-import os
-
+# from Grid import Grid
 taille_fenetre = (640, 480)
-
-background = pygame.image.load(os.path.join("images", "menu_background.jpg"))
 
 def fonctions_player():
     player.render()
@@ -24,7 +21,7 @@ if __name__ == "__main__":
     
     player = Player(screen)
 
-
+    # grille  = Grid(screen, taille_fenetre)
     while True:
         time.sleep(0.01)
         events = pygame.event.get()
@@ -32,10 +29,12 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit(0)
-        
-        pygame.draw.rect(screen, (0,0,0), pygame.Rect(0, 0, 1000, 1000))
+
+            if event.key == pygame.K_SPACE:
+                player.split()
+        pygame.draw.rect(screen, (255,0,0), pygame.Rect(0, 0, 1000, 1000))
         fonctions_player()
-        # screen.blit(background, taille_fenetre)
+        
         
         pygame.display.flip()
         

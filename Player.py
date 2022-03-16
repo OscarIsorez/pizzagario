@@ -33,3 +33,14 @@ class Player():
     def render(self):
         image = pygame.transform.scale(self.image, (self.size, self.size))
         self.screen.blit(image, (self.x - self.size/2, self.y - self.size/2))
+
+
+    def split():
+        # j'ai mis dans la boucle dans le main:
+        #si on appuye sur espace, le player se split comme dans le je
+        # il faut que tu fasses la methode qui fait ça ducoop
+
+        # j'ai mis sur github le lien vers un mec qui a fait un agario on peut s'en inspirer
+        
+        
+        pass
