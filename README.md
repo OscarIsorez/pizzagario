@@ -7,7 +7,7 @@ if event.key == pygame.K_SPACE:
 par :
 if event.type == pygame.KEYDOWN:
     if event.key == pygame.K_SPACE:
-        player.split()
+        player.split(0, 0)
 
 Méchant :
 -variable x et y pour la position du centre du méchant
