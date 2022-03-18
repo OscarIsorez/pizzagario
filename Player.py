@@ -4,8 +4,11 @@ from Circle import Circle
 
 class Player():
     # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza
-    def __init__(self, screen):
+    def __init__(self, screen, cam):
+        self.cam = cam
         self.screen = screen
+        self.screen_width, self.screen_height = self.screen.get_size()
+        print(self.screen_width)
         self.image = pygame.image.load(os.path.join("images","pizza.png")).convert_alpha()
         self.circles = []
         self.circles.append(Circle(0, 0, 100, 0, 0, 0))
@@ -14,10 +17,10 @@ class Player():
 
     # il faut passer en paramètre où se situe l'écran sur la map, anisi qu'une liste de tous les robots et points de nourritures
     # le joueur va vérifier s'il mange un bot, mais pas si il se fais manger par un bot
-    def update(self, x_screen, y_screen, bots):
+    def update(self, bots):
         x, y = pygame.mouse.get_pos()
-        x += x_screen
-        y += y_screen
+        x -= self.cam.x
+        y -= self.cam.y
         self.x = 0
         self.y = 0
         for circle in self.circles:
@@ -33,10 +36,7 @@ class Player():
                     y = circle.y - circle2.y
                     l = (x**2+y**2)**0.5
                     if l <circle.size/2 + circle2.size/2:
-                        if circle.time < 1 and circle2.time < 1:
-                            x = 0.5
-                            y = 0.5
-                        if l > 1:
+                        if l > 1 and (circle.time > 0 or circle2.time > 0):
                             circle.x += (x*(circle.size/2 + circle2.size/2 - l)/l)/2
                             circle.y += (y*(circle.size/2 + circle2.size/2 - l)/l)/2
                             circle2.x -= (x*(circle.size/2 + circle2.size/2 - l)/l)/2
@@ -55,7 +55,8 @@ class Player():
     def render(self):
         for circle in self.circles:
             image = pygame.transform.scale(self.image, (circle.size, circle.size))
-            self.screen.blit(image, (circle.x - circle.size/2, circle.y - circle.size/2))
+            self.screen.blit(image, (circle.size/2 + self.screen_width/2, circle.size/2 + self.screen_height/2))
+            pygame.draw.circle(self.screen, (0, 255, 0),[int(self.screen_width/2), int(self.screen_height/2)], 10, 0)
 
 
     def split(self, x_screen, y_screen):

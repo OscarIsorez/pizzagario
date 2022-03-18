@@ -6,7 +6,7 @@ import pygame
 class Grid(Drawable):
     """classe pour faire la grille du jeu"""
 
-    
+
 
     def __init__(self, surface, camera):
         super().__init__(surface, camera)
