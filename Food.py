@@ -1,5 +1,4 @@
 import pygame
-import os
 
 class Food():
     def __init__(self, screen, x, y, cam):

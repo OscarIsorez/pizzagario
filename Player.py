@@ -25,8 +25,8 @@ class Player():
         self.y = 0
         for circle in self.circles:
             circle.update(x, y, bots)
-            self.x += circle.x
-            self.y += circle.y
+            self.x += circle.x 
+            self.y += circle.y 
 
         new_circles = []
         for circle in self.circles:
@@ -59,6 +59,8 @@ class Player():
 
 
     def split(self, x_screen, y_screen):
+        """divise le joueur en deux parties distinctes"""
+
         old_circles = self.circles
         self.circles = []
         for circle in old_circles:
