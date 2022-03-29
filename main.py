@@ -17,14 +17,31 @@ if __name__ == "__main__":
     pygame.display.set_caption('pizzagario')
     screen = pygame.display.set_mode(taille_fenetre)
 
+    x_play_button, y_play_button = 100,100
     #image bouton play
-    play_button_image = pygame.image.load(os.path.join("images","button.png"))
-    play_button = pygame.transform.scale(play_button_image,(400, 180))
+    play_button_image = pygame.image.load(os.path.join("images","jouer.png"))
+    play_button = pygame.transform.scale(play_button_image,(x_play_button, y_play_button))
     play_button_rect =play_button.get_rect()
-    play_button_rect.x = math.ceil( screen.get_width()/4)
-    play_button_rect.y =  math.ceil( screen.get_height()/4)
+    play_button_rect.x = math.ceil( screen.get_width()/5.6)
+    play_button_rect.y =  math.ceil( screen.get_height()/3)
+
+    background_depart_image = pygame.image.load(os.path.join("images","menu_background.jpg"))
+    background_depart = pygame.transform.scale(background_depart_image,taille_fenetre)
+    background_depart_rect = background_depart.get_rect()
 
 
+    ton_score =0
+    score_inscrit = f'Score: {ton_score}'
+    X = taille_fenetre[0]
+    Y = taille_fenetre[1]
+    green = (221, 120, 43)
+    blue = (0, 0, 128)
+    
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    text = font.render(score_inscrit, True, green)
+    textRect = text.get_rect()
+    textRect.center = (X-550 , Y-440)
+    
 
     cam = Camera(1, 0, 0)
     player = Player(screen, cam)
@@ -37,8 +54,9 @@ if __name__ == "__main__":
 
     def ecran_de_demarrage():
         global is_playing
-        screen.fill((0,255,0))
+        screen.blit(background_depart, background_depart_rect)
         screen.blit(play_button, play_button_rect)
+        screen.blit(text, textRect)
     
         
     def fonctions_player():
@@ -68,6 +86,7 @@ if __name__ == "__main__":
 
     while RUNNING:
         time.sleep(0.01)
+        mouse = pygame.mouse.get_pos()
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
@@ -79,8 +98,14 @@ if __name__ == "__main__":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button_rect.collidepoint(event.pos):
                     is_playing = True
+            if event.type == pygame.MOUSEMOTION:
+                if play_button_rect.collidepoint(event.pos):
+                    play_button = pygame.transform.scale(play_button_image,(x_play_button +20, y_play_button+20))
                     
-                    
+                else:
+                    play_button = pygame.transform.scale(play_button_image,(x_play_button, y_play_button))
+
+
         if not is_playing:
             ecran_de_demarrage()
         else:
