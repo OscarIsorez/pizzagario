@@ -1,31 +1,32 @@
+import pygame
 import os
 from Circle import Circle
 
 class Player():
     # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza
-    def __init__(self):
+    def __init__(self, screen, cam):
+        self.cam = cam
+        self.screen = screen
+        self.screen_width, self.screen_height = self.screen.get_size()
+        print(self.screen_width)
+        self.image = pygame.image.load(os.path.join("images","pizza.png")).convert_alpha()
         self.circles = []
         self.circles.append(Circle(0, 0, 100, 0, 0, 0))
         self.x = 0
         self.y = 0
-        self.target_x = 0
-        self.target_y = 0
-
-    # il faut passer en paramètre vers où doit aller la pizza
-    def setTarget(x, y):
-        self.target_x = x
-        self.target_y = y
 
     # il faut passer en paramètre où se situe l'écran sur la map, anisi qu'une liste de tous les robots et points de nourritures
     # le joueur va vérifier s'il mange un bot, mais pas si il se fais manger par un bot
     def update(self, bots):
-        x, y = self.target_x, self.target_y
+        x, y = pygame.mouse.get_pos()
+        x += self.x - self.screen_width/2
+        y += self.y - self.screen_height/2
         self.x = 0
         self.y = 0
         for circle in self.circles:
             circle.update(x, y, bots)
-            self.x += circle.x
-            self.y += circle.y
+            self.x += circle.x 
+            self.y += circle.y 
 
         new_circles = []
         for circle in self.circles:
@@ -51,7 +52,15 @@ class Player():
         self.y = self.y / len(self.circles)
         print(self.x)
 
+    def render(self):
+        for circle in self.circles:
+            image = pygame.transform.scale(self.image, (circle.size, circle.size))
+            self.screen.blit(image, (-image.get_width()/2 + self.screen_width/2 + circle.x - self.x, -image.get_height()/2 + self.screen_height/2  + circle.y - self.y))
+
+
     def split(self, x_screen, y_screen):
+        """divise le joueur en deux parties distinctes"""
+
         old_circles = self.circles
         self.circles = []
         for circle in old_circles:

@@ -1,31 +1,53 @@
+from ServerManager import ServerManager
 
 class SocketListener():
-    def __init__(self):
+    def __init__(self, main):
+        self.main = main
+        self.id = 0
+        self.socket_ids = {}
         self.clients = []
+        self.serverManager = ServerManager(self)
 
     def newClient(self, socket):
         print("new client")
         self.clients.append(socket)
+        self.socket_ids[socket] = self.id
+        self.id += 1
+        self.main.addPlayer(socket)
 
     def message(self, socket, event, msg):
         print(event + " : " + msg)
         if msg == "stopserver":
-            global continuer
-            continuer = False
+            self.serverManager.closeConnection()
         else:
-            global serverManager
-            for client in self.clients:
-                serverManager.send(client, "msg", msg)
+            i = msg.index(",")
+            self.main.setTarget(socket, int(data[:index]), int(data[index+1:]))
+
+    def sendData(data):
+        strdata = ""
+        for socket in data:
+            strdata += self.socket_ids[socket] + ","
+
+            circles = data[socket].circles
+            for circle in circles:
+                strdata += circle.size + ","
+                strdata += circle.x + ","
+                strdata += circle.y + ","
+            strdata += "|"
+        for socket in self.clients:
+            self.serverManager.send(str(self.socket_ids[socket]) + "," + strdata)
 
     def disconnect(self, socket):
+        self.main.removePlayer(socket)
         self.clients.remove(socket)
+        del self.socket_ids[socket]
         print("client disconnect")
 
     def stop(self):
         print("the server has stoped")
 
 if __name__ == "__main__":
-    from ServerManager import ServerManager
+
     socketListener = SocketListener()
     serverManager = ServerManager(socketListener)
     continuer = True
