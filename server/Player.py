@@ -5,14 +5,14 @@ class Player():
     # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza
     def __init__(self):
         self.circles = []
-        self.circles.append(Circle(0, 0, 100, 0, 0, 0))
+        self.circles.append(Circle(0, 0, 100, 0, 0, 0, Player))
         self.x = 0
         self.y = 0
         self.target_x = 0
         self.target_y = 0
 
     # il faut passer en paramètre vers où doit aller la pizza
-    def setTarget(x, y):
+    def setTarget(self, x, y):
         self.target_x = x
         self.target_y = y
 
@@ -59,7 +59,7 @@ class Player():
                 x = circle.x
                 y = circle.y
                 size = circle.size
-                self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500))
+                self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500, Player))
 
                 x_mouse, y_mouse = pygame.mouse.get_pos()
                 x_mouse += x_screen - x
@@ -69,7 +69,7 @@ class Player():
                 x_mouse = x_mouse/l
                 y_mouse = y_mouse/l
 
-                self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500))
+                self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500, Player))
             else:
                 self.circles.append(circle)
 

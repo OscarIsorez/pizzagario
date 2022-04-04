@@ -11,7 +11,7 @@ class Player():
         print(self.screen_width)
         self.image = pygame.image.load(os.path.join("images","pizza.png")).convert_alpha()
         self.circles = []
-        self.circles.append(Circle(0, 0, 100, 0, 0, 0))
+        self.circles.append(Circle(0, 0, 100, 0, 0, 0, Player))
         self.x = 0
         self.y = 0
 
@@ -68,7 +68,7 @@ class Player():
                 x = circle.x
                 y = circle.y
                 size = circle.size
-                self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500))
+                self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500, Player))
 
                 x_mouse, y_mouse = pygame.mouse.get_pos()
                 x_mouse += x_screen - x
@@ -78,7 +78,7 @@ class Player():
                 x_mouse = x_mouse/l
                 y_mouse = y_mouse/l
 
-                self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500))
+                self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500, Player))
             else:
                 self.circles.append(circle)
 

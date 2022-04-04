@@ -19,23 +19,23 @@ class SocketListener():
         print(event + " : " + msg)
         if msg == "stopserver":
             self.serverManager.closeConnection()
-        else:
-            i = msg.index(",")
-            self.main.setTarget(socket, int(data[:index]), int(data[index+1:]))
+        elif "," in msg:
+            index = msg.index(",")
+            self.main.setTarget(socket, int(msg[:index]), int(msg[index+1:]))
 
-    def sendData(data):
+    def sendData(self, data):
         strdata = ""
         for socket in data:
-            strdata += self.socket_ids[socket] + ","
+            strdata += str(self.socket_ids[socket]) + ","
 
             circles = data[socket].circles
             for circle in circles:
-                strdata += circle.size + ","
-                strdata += circle.x + ","
-                strdata += circle.y + ","
+                strdata += str(circle.size) + ","
+                strdata += str(circle.x) + ","
+                strdata += str(circle.y) + ","
             strdata += "|"
         for socket in self.clients:
-            self.serverManager.send(str(self.socket_ids[socket]) + "," + strdata)
+            self.serverManager.send(socket, "msg", str(self.socket_ids[socket]) + "," + strdata)
 
     def disconnect(self, socket):
         self.main.removePlayer(socket)

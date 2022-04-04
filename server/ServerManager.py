@@ -39,6 +39,9 @@ class ServerManager(threading.Thread):
             self._socket.close()
             self._socketListener.stop()
 
+    def close(self, socket):
+        self._clients[socket].closeConnection()
+
     def send(self, socket, event, msg):
         '''l'event ne doit pas contenir de /'''
         self._clients[socket].send(event, msg)
