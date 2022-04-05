@@ -21,8 +21,9 @@ class SocketManager(threading.Thread):
         while self._working:
             try:
                 encodedData = self._socket.recv(1024)
-            except:
+            except socket.error as msg:
                 if self._working:
+                    print(msg)
                     print("problème lors de la reception d'un message !")
                     self.closeConnection()
             if self._working:

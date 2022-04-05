@@ -21,10 +21,10 @@ class Main():
 
     def update(self):
         bots = self.players.values()
-        for player in self.players.keys():
-            if len(player.circles()) == 0:
+        tmp_sockets = list(self.players.keys())
+        for player in tmp_sockets:
+            if len(self.players[player].circles) == 0:
                 self.socketListener.serverManager.close(player)
-                del self.players[player]
             else:
                 self.players[player].update(bots)
 

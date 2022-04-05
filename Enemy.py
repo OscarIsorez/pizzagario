@@ -2,7 +2,7 @@ import pygame
 import os
 from Circle import Circle
 
-class Player():
+class Enemy():
     # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza
     def __init__(self, screen, cam):
         self.cam = cam
@@ -83,4 +83,5 @@ class Player():
                 self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500, Player))
             else:
                 self.circles.append(circle)
+
 

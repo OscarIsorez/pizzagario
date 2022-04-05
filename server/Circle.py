@@ -1,4 +1,3 @@
-import pygame
 import os
 
 class Circle():
@@ -11,7 +10,7 @@ class Circle():
         self.time = time
         self.Player = Player
 
-    def update(self, x, y, bots):
+    def update(self, x, y, bots, player):
         self.time -= 1
         x -= self.x
         y -= self.y
@@ -32,11 +31,12 @@ class Circle():
             self.x += x + self.vector_x
             self.y += y + self.vector_y
         for bot in bots:
-            if isinstance(bot, self.Player):
-                for circle in bot.circles:
-                    self.collision(circle, bot.circles)
-            else:
-                self.collision(bot, bots)
+            if bot != player:
+                if isinstance(bot, self.Player):
+                    for circle in bot.circles:
+                        self.collision(circle, bot.circles)
+                else:
+                    self.collision(bot, bots)
 
     def collision(self, bot, bots):
         x = bot.x - self.x
