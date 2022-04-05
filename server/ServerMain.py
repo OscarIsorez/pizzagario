@@ -16,6 +16,9 @@ class Main():
     def setTarget(self, socket, x, y):
         self.players[socket].setTarget(x, y)
 
+    def split(self, socket):
+        self.players[socket].split()
+
     def sendData(self):
         self.socketListener.sendData(self.players)
 
@@ -27,6 +30,10 @@ class Main():
                 self.socketListener.serverManager.close(player)
             else:
                 self.players[player].update(bots)
+
+    def stop():
+        global continuer
+        continuer = False
 
 if __name__ == "__main__":
     main = Main()

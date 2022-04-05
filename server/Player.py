@@ -41,45 +41,15 @@ class Player():
                                 circle2.x -= (x*(circle.size/2 + circle2.size/2 - longueur)/longueur)/2
                                 circle2.y -= (y*(circle.size/2 + circle2.size/2 - longueur)/longueur)/2
                             if circle.time < 1 and circle2.time < 1 and (longueur <circle.size/2 or longueur <circle2.size/2):
-
-
-            self.x = self.x / len(self.circles)
-            self.y = self.y / len(self.circles)
-            print(self.x)
-
-    def split(self, x_screen, y_screen):
-        old_circles = self.circles
-        self.circles = []
-        for circle in old_circles:
-            if circle.size > 64:
-                x = circle.x
-                y = circle.y
-                size = circle.size
-                self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500, Player))
-
-                x_mouse, y_mouse = pygame.mouse.get_pos()
-                x_mouse += x_screen - x
-                y_mouse += y_screen - y
-
-                l = (x_mouse**2+y_mouse**2)**0.5
-                x_mouse = x_mouse/l
-                y_mouse = y_mouse/l
-
-                self.circles.append(Circle(x, y, circle.size//2, x_mouse*2, y_mouse*2, 1500, Player))
-            else:
-                self.circles.append(circle)
-
-                                new_circles.append(Circle((circle.x+circle2.x)/2, (circle.y+circle2.y)/2, circle.size + circle2.size, 0, 0, 0))
+                                new_circles.append(Circle((circle.x+circle2.x)/2, (circle.y+circle2.y)/2, circle.size + circle2.size, 0, 0, 0, Player))
                                 self.circles.remove(circle)
                                 self.circles.remove(circle2)
             self.circles += new_circles
 
-
             self.x = self.x / len(self.circles)
             self.y = self.y / len(self.circles)
-            print(self.x)
 
-    def split(self, x_screen, y_screen):
+    def split(self):
         old_circles = self.circles
         self.circles = []
         for circle in old_circles:
@@ -89,9 +59,7 @@ class Player():
                 size = circle.size
                 self.circles.append(Circle(x, y, circle.size//2, 0, 0, 1500, Player))
 
-                x_mouse, y_mouse = pygame.mouse.get_pos()
-                x_mouse += x_screen - x
-                y_mouse += y_screen - y
+                x_mouse, y_mouse = self.target_x, self.target_y
 
                 l = (x_mouse**2+y_mouse**2)**0.5
                 x_mouse = x_mouse/l

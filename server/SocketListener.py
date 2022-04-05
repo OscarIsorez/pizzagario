@@ -19,6 +19,8 @@ class SocketListener():
         print(event + " : " + msg)
         if msg == "stopserver":
             self.serverManager.closeConnection()
+        elif event == "split":
+            self.main.split(socket)
         elif "," in msg:
             index = msg.index(",")
             self.main.setTarget(socket, int(msg[:index]), int(msg[index+1:]))
@@ -44,6 +46,7 @@ class SocketListener():
         print("client disconnect")
 
     def stop(self):
+        self.main.stop()
         print("the server has stoped")
 
 if __name__ == "__main__":
