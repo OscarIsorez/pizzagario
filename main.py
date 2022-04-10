@@ -49,7 +49,7 @@ if __name__ == "__main__":
     grid = Grid(screen, cam)
     boule = []
     
-   
+
     is_playing = False
 
     def ecran_de_demarrage():
@@ -58,6 +58,8 @@ if __name__ == "__main__":
         screen.blit(play_button, play_button_rect)
         screen.blit(text, textRect)
     
+    def ecran_de_fin():
+        screen.fill((0,0,0))
         
     def fonctions_player():
         cam.x = player.x - taille_fenetre[0]/2
@@ -105,14 +107,15 @@ if __name__ == "__main__":
                 else:
                     play_button = pygame.transform.scale(play_button_image,(x_play_button, y_play_button))
 
-
+        if not player.est_en_vie:
+            ecran_de_fin()
         if not is_playing:
             ecran_de_demarrage()
         else:
             pygame.draw.rect(screen, (255,0,0), pygame.Rect(0, 0, 1000, 1000))
             fonctions_player()
             # fonctions_ennemi()
-            
+        
 
         
         pygame.display.flip()
