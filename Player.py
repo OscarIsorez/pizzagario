@@ -54,6 +54,12 @@ class Player():
             self.y = self.y / len(self.circles)
             print(self.x)
 
+    # n'est utilisé qu'en multijoueur / circles est une list contenant des dicos contenant x y et size
+    def update_circle(circles):
+        self.circles = []
+        for circle in circles:
+            self.circles.append(Circle(circle["x"], circle["y"], circle["size"], 0, 0, 1024, Player))
+
     def render(self):
         for circle in self.circles:
             image = pygame.transform.scale(self.image, (circle.size, circle.size))
