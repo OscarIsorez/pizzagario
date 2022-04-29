@@ -1,13 +1,14 @@
 from Enemy import Enemy
-from Circle import Circle
+from CircleEnemies import Circle
 
 class SocketListener():
-    def __init__(self, player, bots, screen, cam):
+    def __init__(self, setPlayerDirection, player, bots, screen, cam):
         self.bots = bots # liste de bots
         self.ids = {} # id:bot
         self.player = player
         self.screen = screen
         self.cam = cam
+        self.setPlayerDirection = setPlayerDirection
 
     def message(self, event, msg):
         print(event + " : " + msg)
@@ -17,7 +18,7 @@ class SocketListener():
         players = {} # id:[{size: x: y:}]
         while "|" in msg:
             index = msg.index("|")
-            player = msg[:index]
+            player_msg = msg[:index]
             msg = msg[index+1:]
 
             index = player_msg.index(",")
@@ -63,7 +64,10 @@ class SocketListener():
                 self.bots.append(enemy)
 
             for circle in players[id]:
-                enemy.circles.append(Circle(circle["x"], circle["y"], circle["size"], 0, 0))
+                enemy.circles.append(Circle(float(circle["x"]), float(circle["y"]), int(circle["size"]), 0, 0))
+
+        # send direction x and y
+        self.setPlayerDirection()
 
     def stop(self):
         print("stop")

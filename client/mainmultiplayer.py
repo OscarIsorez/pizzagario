@@ -1,12 +1,13 @@
 import pygame
 from Player import Player
-from Food import Food
 from Camera import Camera
 from Grid import Grid
 import time
 import sys
 import math
 import os
+from SocketListener import SocketListener
+from SocketManager import SocketManager
 # from Grid import Grid
 taille_fenetre = (640, 480)
 
@@ -18,6 +19,12 @@ def fonctions_player():
         food.render()
     player.render()
     player.update(bots)
+
+# definit la dirrection du player et l'envoie au serveur
+def setPlayerDirection():
+    x, y = pygame.mouse.get_pos()
+    x += self.x - self.screen_width/2
+    y += self.y - self.screen_height/2
 
 
 if __name__ == "__main__":
@@ -44,9 +51,7 @@ if __name__ == "__main__":
     grid = Grid(screen, cam)
 
     bots = []
-    for i in range(10):
-        for j in range(10):
-            bots.append(Food(screen, i*50, j*50, cam))
+
 
     is_playing = False
 
@@ -58,13 +63,13 @@ if __name__ == "__main__":
     RUNNING = True
 
 
-
     # grille  = Grid(screen, taille_fenetre)
     while RUNNING:
         time.sleep(0.01)
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
+                socketManager.closeConnection()
                 pygame.quit()
                 sys.exit(0)
             if event.type == pygame.KEYDOWN:
@@ -73,6 +78,8 @@ if __name__ == "__main__":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button_rect.collidepoint(event.pos):
                     is_playing = True
+                    socketListener = SocketListener(setPlayerDirection, player, bots, screen, cam)
+                    socketManager = SocketManager(socketListener)
 
 
         if not is_playing:

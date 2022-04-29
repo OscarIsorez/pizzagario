@@ -13,13 +13,13 @@ class Player():
         self.circles.append(Circle(0, 0, 100, 0, 0, 0, Player))
         self.x = 0
         self.y = 0
+        self.direction_x = 0
+        self.direction_y = 0
 
     # il faut passer en paramètre où se situe l'écran sur la map, anisi qu'une liste de tous les robots et points de nourritures
     # le joueur va vérifier s'il mange un bot, mais pas si il se fais manger par un bot
     def update(self, bots):
-        x, y = pygame.mouse.get_pos()
-        x += self.x - self.screen_width/2
-        y += self.y - self.screen_height/2
+        x, y = self.direction_x, self.direction_y
         self.x = 0
         self.y = 0
 
@@ -51,6 +51,12 @@ class Player():
 
             self.x = self.x / len(self.circles)
             self.y = self.y / len(self.circles)
+
+    # n'est utilisé qu'en multijoueur / circles est une list contenant des dicos contenant x y et size
+    def update_circle(self, circles):
+        self.circles = []
+        for circle in circles:
+            self.circles.append(Circle(float(circle["x"]), float(circle["y"]), int(circle["size"]), 0, 0, 1024, Player))
 
     def render(self):
         for circle in self.circles:

@@ -1,6 +1,6 @@
 import pygame
 import os
-from Circle import Circle
+from CircleEnemies import Circle
 
 class Enemy():
     # il faut passer en paramètre l'écran sur lequel va être dessiner la pizza

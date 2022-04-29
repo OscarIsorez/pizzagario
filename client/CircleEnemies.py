@@ -2,13 +2,12 @@ import pygame
 import os
 
 class Circle():
-    def __init__(self, x, y, size, vector_x, vector_y, time, Player):
+    def __init__(self, x, y, size, vector_x, vector_y):
         self.x = x
         self.y = y
         self.vector_x = vector_x
         self.vector_y = vector_y
         self.size = size
-        self.time = time
         self.Player = Player
 
     def update(self, x, y, bots, player):
@@ -31,18 +30,3 @@ class Circle():
             y = y/l
             self.x += x + self.vector_x
             self.y += y + self.vector_y
-        for bot in bots:
-            if bot != player:
-                if isinstance(bot, self.Player):
-                    for circle in bot.circles:
-                        self.collision(circle, bot.circles)
-                else:
-                    self.collision(bot, bots)
-
-    def collision(self, bot, bots):
-        x = bot.x - self.x
-        y = bot.y - self.y
-        l = (x**2+y**2)**0.5
-        if l < self.size/2:
-            self.size += bot.size
-            bots.remove(bot)
