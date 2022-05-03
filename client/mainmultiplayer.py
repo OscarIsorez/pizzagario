@@ -23,8 +23,11 @@ def fonctions_player():
 # definit la dirrection du player et l'envoie au serveur
 def setPlayerDirection():
     x, y = pygame.mouse.get_pos()
-    x += self.x - self.screen_width/2
-    y += self.y - self.screen_height/2
+    x += player.x - screen.get_width()/2
+    y += player.y - screen.get_height()/2
+    player.direction_x = int(x)
+    player.direction_y = int(y)
+    socketManager.send("dir", str(int(x))+","+str(int(y)))
 
 
 if __name__ == "__main__":
@@ -64,6 +67,7 @@ if __name__ == "__main__":
 
 
     # grille  = Grid(screen, taille_fenetre)
+    socketManager = None
     while RUNNING:
         time.sleep(0.01)
         events = pygame.event.get()
